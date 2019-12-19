@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corereach.communication.wechatbackstage.dao.MyFriendsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.corereach.communication.wechatbackstage.dao.domain.MyFriendsInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="my_user_id" jdbcType="VARCHAR" property="myUserId" />
+    <result column="my_friend_user_id" jdbcType="VARCHAR" property="myFriendUserId" />
+    <result column="is_deleted" jdbcType="BIGINT" property="isDeleted" />
+  </resultMap>
+</mapper>

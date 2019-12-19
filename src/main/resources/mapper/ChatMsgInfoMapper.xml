@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corereach.communication.wechatbackstage.dao.ChatMsgInfoMapper">
+  <resultMap id="BaseResultMap" type="com.corereach.communication.wechatbackstage.dao.domain.ChatMsgInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="send_user_id" jdbcType="VARCHAR" property="sendUserId" />
+    <result column="accept_user_id" jdbcType="VARCHAR" property="acceptUserId" />
+    <result column="msg" jdbcType="VARCHAR" property="msg" />
+    <result column="sign_flag" jdbcType="INTEGER" property="signFlag" />
+    <result column="is_deleted" jdbcType="BIGINT" property="isDeleted" />
+  </resultMap>
+</mapper>

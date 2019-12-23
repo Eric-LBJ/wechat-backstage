@@ -1,6 +1,5 @@
 package com.corereach.communication.wechatbackstage.server.initializer;
 
-import com.corereach.communication.wechatbackstage.comm.Constants;
 import com.corereach.communication.wechatbackstage.server.handler.WebSocketChatHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -45,7 +44,7 @@ public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel
          * 对httpMessage进行聚合处理，聚合成FullHttpRequest或FullHttpResponse
          * 几乎在netty的编程中，使用http请求的都会是使用到此处理器
          */
-        pipeline.addLast(new HttpObjectAggregator(Constants.MAX_CONTENT_LENGTH));
+        pipeline.addLast(new HttpObjectAggregator(maxContentLength));
 
         /**===========================以上处理器用于支持http协议===============================*/
 
@@ -54,9 +53,9 @@ public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel
          * 这个handler会处理一些繁重复杂的工作，会处理握手动作handshaking(close,ping,pong) , ping + pong = 心跳
          * 对于webSocket来讲，都是以frames(帧)进行传输的，不同的数据类型对应不同的frames也不同
          */
-        pipeline.addLast(new WebSocketServerProtocolHandler(Constants.WEB_SOCKET_PATH));
+        pipeline.addLast(new WebSocketServerProtocolHandler(webSocketPath));
         /**自定义处理器*/
-        pipeline.addLast(new WebSocketChatHandler());
+        pipeline.addLast(webSocketChatHandler);
     }
 
 }

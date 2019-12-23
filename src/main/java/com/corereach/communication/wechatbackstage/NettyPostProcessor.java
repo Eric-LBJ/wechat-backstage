@@ -1,6 +1,5 @@
 package com.corereach.communication.wechatbackstage;
 
-import com.corereach.communication.wechatbackstage.server.ChatServer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -8,6 +7,7 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * @Description: 监听springboot，当springboot启动完成后，执行onApplicationEvent方法里面的操作
+ *                  目前这个启动类暂时不用，因为在start()方法加上PostConstruct注解
  * @Author ga.zhang
  * @Date 2019/12/19 15:02
  * @Version V1.0
@@ -21,7 +21,7 @@ public class NettyPostProcessor implements ApplicationListener<ContextRefreshedE
         if (ObjectUtils.isEmpty(contextRefreshedEvent.getApplicationContext().getParent())) {
             try {
                 /**启动netty*/
-                ChatServer.getInstance().start();
+                /**ChatServer.getInstance().start();*/
             } catch (Exception e) {
                 e.printStackTrace();
             }

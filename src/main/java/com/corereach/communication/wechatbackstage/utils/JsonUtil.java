@@ -1,4 +1,4 @@
-package com.corereach.communication.wechatbackstage.comm;
+package com.corereach.communication.wechatbackstage.utils;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @Description: 自定义响应结构, 转换类
  */
-public class JsonUtils {
+public class JsonUtil {
 
     /**定义jackson对象*/
     private static final ObjectMapper MAPPER = new ObjectMapper();

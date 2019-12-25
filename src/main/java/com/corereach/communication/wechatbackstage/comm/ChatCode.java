@@ -1,5 +1,7 @@
 package com.corereach.communication.wechatbackstage.comm;
 
+import com.icode.rich.comm.AiCode;
+
 /**
  * @Description: TODO
  * @Author ga.zhang
@@ -7,5 +9,11 @@ package com.corereach.communication.wechatbackstage.comm;
  * @Version V1.0
  **/
 public class ChatCode {
+
+    /**
+     * user : 500100-500399
+     */
+    public static final AiCode USERNAME_PASSWORD_CAN_NOT_BE_NULL = new AiCode(500100, "username or password can not be null", "用户名或密码不能为空");
+    public static final AiCode USERNAME_OR_PASSWORD_ERROR = new AiCode(500101, "username or password error", "用户名或密码错误");
 
 }

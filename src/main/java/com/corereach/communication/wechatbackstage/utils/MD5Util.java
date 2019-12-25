@@ -1,4 +1,4 @@
-package com.corereach.communication.wechatbackstage.comm;
+package com.corereach.communication.wechatbackstage.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.Md5Crypt;
 
-public class MD5Utils {
+public class MD5Util {
 
 	/**
 	 * @Description: 对字符串进行md5加密 

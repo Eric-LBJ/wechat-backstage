@@ -16,9 +16,16 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <ai-comm.version>1.0-SNAPSHOT</ai-comm.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.icode.rich</groupId>
+            <artifactId>ai-comm</artifactId>
+            <version>${ai-comm.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -29,6 +36,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

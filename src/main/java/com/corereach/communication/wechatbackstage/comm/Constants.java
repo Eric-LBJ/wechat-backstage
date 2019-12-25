@@ -8,6 +8,8 @@ package com.corereach.communication.wechatbackstage.comm;
  **/
 public class Constants {
 
+    /**国际化*/
+    public static final Boolean isGlobal = Boolean.FALSE;
     /**netty服务端口*/
     public static final Integer SERVER_PORT = 8088;
     /**http请求或响应最大长度*/

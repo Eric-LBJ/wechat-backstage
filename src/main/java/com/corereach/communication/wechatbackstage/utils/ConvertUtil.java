@@ -20,10 +20,17 @@ public class ConvertUtil {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public Object convertDomain(Class targetClazz, Object initObject) throws IllegalAccessException, InstantiationException {
-        Object targetObject = targetClazz.newInstance();
-        if (!ObjectUtils.isEmpty(initObject)) {
-            BeanUtils.copyProperties(initObject, targetObject);
+    public static Object convertDomain(Class targetClazz, Object initObject) {
+        Object targetObject = null;
+        try {
+            targetObject = targetClazz.newInstance();
+            if (!ObjectUtils.isEmpty(initObject)) {
+                BeanUtils.copyProperties(initObject, targetObject);
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
         return targetObject;
     }

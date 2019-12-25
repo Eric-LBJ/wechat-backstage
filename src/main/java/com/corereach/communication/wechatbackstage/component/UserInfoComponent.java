@@ -35,4 +35,11 @@ public interface UserInfoComponent {
      */
     UserInfoDTO checkPassword(String username, String password);
 
+    /**
+     * 用户注册
+     *
+     * @param userInfoDTO
+     * @return
+     */
+    UserInfoDTO insertUser(UserInfoDTO userInfoDTO);
 }

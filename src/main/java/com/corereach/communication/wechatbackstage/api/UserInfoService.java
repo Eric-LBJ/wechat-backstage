@@ -35,4 +35,11 @@ public interface UserInfoService {
      */
     UserInfoVO checkPassword(String username, String password);
 
+    /**
+     * 用户注册
+     *
+     * @param user
+     * @return
+     */
+    UserInfoVO insertUser(UserInfoVO user);
 }

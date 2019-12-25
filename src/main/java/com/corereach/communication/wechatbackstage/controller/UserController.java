@@ -4,6 +4,7 @@ import com.corereach.communication.wechatbackstage.api.UserInfoService;
 import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
 import com.corereach.communication.wechatbackstage.comm.ChatCode;
 import com.corereach.communication.wechatbackstage.comm.Constants;
+import com.corereach.communication.wechatbackstage.utils.MD5Util;
 import com.icode.rich.comm.AiResult;
 import com.icode.rich.exception.AiException;
 import org.springframework.util.ObjectUtils;
@@ -43,11 +44,18 @@ public class UserController {
          */
         UserInfoVO userInfoVO = null;
         if (userInfoService.isUsernameExist(user.getUsername())) {
-            userInfoVO = userInfoService.checkPassword(user.getUsername(), user.getPassword());
+            /**
+             * 登录流程
+             */
+            userInfoVO = userInfoService.checkPassword(user.getUsername(), MD5Util.getMD5Str(user.getPassword()));
             if (!ObjectUtils.isEmpty(userInfoVO) || !StringUtils.isEmpty(userInfoVO.getUsername())) {
                 throw new AiException(Constants.isGlobal, ChatCode.USERNAME_OR_PASSWORD_ERROR);
             }
         } else {
+            /**
+             * 注册流程
+             */
+            userInfoVO = userInfoService.insertUser(user);
 
         }
 

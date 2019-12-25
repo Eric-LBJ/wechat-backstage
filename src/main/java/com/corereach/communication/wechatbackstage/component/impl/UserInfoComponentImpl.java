@@ -1,10 +1,15 @@
 package com.corereach.communication.wechatbackstage.component.impl;
 
+import com.corereach.communication.wechatbackstage.comm.ChatCode;
+import com.corereach.communication.wechatbackstage.comm.Constants;
 import com.corereach.communication.wechatbackstage.component.UserInfoComponent;
 import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
 import com.corereach.communication.wechatbackstage.dao.UserInfoMapper;
 import com.corereach.communication.wechatbackstage.dao.domain.UserInfo;
 import com.corereach.communication.wechatbackstage.utils.ConvertUtil;
+import com.corereach.communication.wechatbackstage.utils.MD5Util;
+import com.icode.rich.exception.AiException;
+import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -25,11 +30,14 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     @Resource
     private UserInfoMapper userInfoMapper;
 
+    @Resource
+    private Sid sid;
+
     @Override
     public UserInfoDTO getUserInfoByUserName(String username) {
         UserInfo info = new UserInfo();
         info.setUsername(username);
-        return (UserInfoDTO) ConvertUtil.convertDomain(UserInfoDTO.class,
+        return ConvertUtil.convertDomain(UserInfoDTO.class,
                 Optional.ofNullable(userInfoMapper.selectOne(info)).orElse(new UserInfo()));
     }
 
@@ -37,7 +45,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     public Boolean isUsernameExist(String username) {
         UserInfo info = new UserInfo();
         info.setUsername(username);
-        UserInfo userInfo = (UserInfo)userInfoMapper.selectOne(info);
+        UserInfo userInfo = (UserInfo) userInfoMapper.selectOne(info);
         return !ObjectUtils.isEmpty(userInfo) && !StringUtils.isEmpty(userInfo.getUsername());
     }
 
@@ -47,7 +55,22 @@ public class UserInfoComponentImpl implements UserInfoComponent {
         Example.Criteria criteria = userExample.createCriteria();
         criteria.andEqualTo("username", username);
         criteria.andEqualTo("password", password);
-        return (UserInfoDTO) ConvertUtil.convertDomain(UserInfoDTO.class,
+        return ConvertUtil.convertDomain(UserInfoDTO.class,
                 Optional.ofNullable(userInfoMapper.selectOneByExample(userExample)).orElse(new UserInfo()));
+    }
+
+    @Override
+    public UserInfoDTO insertUser(UserInfoDTO userInfoDTO) {
+        String id = sid.nextShort();
+        userInfoDTO.setNickName(userInfoDTO.getUsername());
+        userInfoDTO.setFaceImage("");
+        userInfoDTO.setFaceImageBig("");
+        userInfoDTO.setPassword(MD5Util.getMD5Str(userInfoDTO.getPassword()));
+        userInfoDTO.setQrcode("");
+        userInfoDTO.setId(id);
+        if (userInfoMapper.insert(ConvertUtil.convertDomain(UserInfo.class, userInfoDTO)) <= 0){
+            throw new AiException(Constants.isGlobal, ChatCode.USER_REGISTER_FAILURE);
+        }
+        return userInfoDTO;
     }
 }

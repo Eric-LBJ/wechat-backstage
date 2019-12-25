@@ -20,7 +20,7 @@ public class ConvertUtil {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public static Object convertDomain(Class targetClazz, Object initObject) {
+    public static <T> T convertDomain(Class<T> targetClazz, Object initObject) {
         Object targetObject = null;
         try {
             targetObject = targetClazz.newInstance();
@@ -32,7 +32,10 @@ public class ConvertUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return targetObject;
+        if (targetClazz.isInstance(targetObject)) {
+            return targetClazz.cast(targetObject);
+        }
+        return null;
     }
 
 }

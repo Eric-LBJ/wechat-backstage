@@ -3,7 +3,10 @@ package com.corereach.communication.wechatbackstage.service;
 import com.corereach.communication.wechatbackstage.api.UserInfoService;
 import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
 import com.corereach.communication.wechatbackstage.component.UserInfoComponent;
+import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
 import com.corereach.communication.wechatbackstage.utils.ConvertUtil;
+import com.corereach.communication.wechatbackstage.utils.MD5Util;
+import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,7 +25,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfoVO getUserInfoByUserName(String username) {
-        return (UserInfoVO) ConvertUtil.convertDomain(UserInfoVO.class, userInfoComponent.getUserInfoByUserName(username));
+        return ConvertUtil.convertDomain(UserInfoVO.class, userInfoComponent.getUserInfoByUserName(username));
     }
 
     @Override
@@ -32,6 +35,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfoVO checkPassword(String username, String password) {
-        return (UserInfoVO) ConvertUtil.convertDomain(UserInfoVO.class, userInfoComponent.checkPassword(username,password));
+        return ConvertUtil.convertDomain(UserInfoVO.class, userInfoComponent.checkPassword(username, password));
+    }
+
+    @Override
+    public UserInfoVO insertUser(UserInfoVO user) {
+        return ConvertUtil.convertDomain(UserInfoVO.class,
+                userInfoComponent.insertUser(ConvertUtil.convertDomain(UserInfoDTO.class, user)));
     }
 }

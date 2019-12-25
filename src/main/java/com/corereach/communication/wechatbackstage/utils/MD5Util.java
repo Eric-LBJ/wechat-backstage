@@ -11,10 +11,16 @@ public class MD5Util {
 	/**
 	 * @Description: 对字符串进行md5加密 
 	 */
-	public static String getMD5Str(String strValue) throws Exception {
-		MessageDigest md5 = MessageDigest.getInstance("MD5");
-		String newstr = Base64.encodeBase64String(md5.digest(strValue.getBytes()));
-		return newstr;
+	public static String getMD5Str(String strValue) {
+		MessageDigest md5 = null;
+		String newStr = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+			newStr = Base64.encodeBase64String(md5.digest(strValue.getBytes()));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return newStr;
 	}
 
 	public static void main(String[] args) {

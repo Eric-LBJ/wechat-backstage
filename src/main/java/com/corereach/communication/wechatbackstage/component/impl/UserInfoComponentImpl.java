@@ -7,7 +7,7 @@ import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
 import com.corereach.communication.wechatbackstage.dao.UserInfoMapper;
 import com.corereach.communication.wechatbackstage.dao.domain.UserInfo;
 import com.corereach.communication.wechatbackstage.utils.ConvertUtil;
-import com.corereach.communication.wechatbackstage.utils.MD5Util;
+import com.corereach.communication.wechatbackstage.utils.Md5Util;
 import com.icode.rich.exception.AiException;
 import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Component;
@@ -65,7 +65,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
         userInfoDTO.setNickName(userInfoDTO.getUsername());
         userInfoDTO.setFaceImage("");
         userInfoDTO.setFaceImageBig("");
-        userInfoDTO.setPassword(MD5Util.getMD5Str(userInfoDTO.getPassword()));
+        userInfoDTO.setPassword(Md5Util.getMd5Str(userInfoDTO.getPassword()));
         userInfoDTO.setQrcode("");
         userInfoDTO.setId(id);
         if (userInfoMapper.insert(ConvertUtil.convertDomain(UserInfo.class, userInfoDTO)) <= 0){

@@ -24,7 +24,7 @@ public interface UserInfoComponent {
      * @param username 用户名
      * @return Boolean
      */
-    Boolean isUsernameExist(String username);
+    Boolean usernameIsExist(String username);
 
     /**
      * 用户登录时，校验用户名和密码

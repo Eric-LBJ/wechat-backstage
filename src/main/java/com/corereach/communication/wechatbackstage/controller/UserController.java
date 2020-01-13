@@ -1,6 +1,7 @@
 package com.corereach.communication.wechatbackstage.controller;
 
 import com.corereach.communication.wechatbackstage.api.UserInfoService;
+import com.corereach.communication.wechatbackstage.api.domain.FrontUserInfoVO;
 import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
 import com.corereach.communication.wechatbackstage.comm.ChatCode;
 import com.corereach.communication.wechatbackstage.comm.Constants;
@@ -30,8 +31,8 @@ public class UserController {
     private UserInfoService userInfoService;
 
     @PostMapping("/registerOrLogin")
-    private AiResult<String> registerOrLogin(@RequestBody UserInfoVO user) {
-
+    private AiResult<FrontUserInfoVO> registerOrLogin(@RequestBody UserInfoVO user) {
+        System.out.println("ok1");
         /*
          * 判断用户名密码不能为空
          */
@@ -42,24 +43,25 @@ public class UserController {
         /*
          * 判断用户是否存在，存在则登录，不存在则注册
          */
-        UserInfoVO userInfoVO;
-        if (userInfoService.isUsernameExist(user.getUsername())) {
+        FrontUserInfoVO frontUserInfoVO;
+        if (userInfoService.usernameIsExist(user.getUsername())) {
+            System.out.println("ok2");
             /*
              * 登录流程
              */
-            userInfoVO = userInfoService.checkPassword(user.getUsername(), Md5Util.getMd5Str(user.getPassword()));
-            if (!ObjectUtils.isEmpty(userInfoVO) || !StringUtils.isEmpty(userInfoVO.getUsername())) {
+            frontUserInfoVO = userInfoService.checkPassword(user.getUsername(), Md5Util.getMd5Str(user.getPassword()));
+            if (!ObjectUtils.isEmpty(frontUserInfoVO) || !StringUtils.isEmpty(frontUserInfoVO.getUsername())) {
                 throw new AiException(Constants.isGlobal, ChatCode.USERNAME_OR_PASSWORD_ERROR);
             }
         } else {
+            System.out.println("ok3");
             /*
              * 注册流程
              */
-            userInfoVO = userInfoService.insertUser(user);
-
+            frontUserInfoVO = userInfoService.insertUser(user);
+            System.out.println(frontUserInfoVO.toString());
         }
-
-        return new AiResult<>();
+        return new AiResult<>(Constants.isGlobal,frontUserInfoVO);
     }
 
 }

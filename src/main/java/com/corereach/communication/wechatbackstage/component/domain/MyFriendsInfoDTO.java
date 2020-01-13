@@ -3,6 +3,7 @@ package com.corereach.communication.wechatbackstage.component.domain;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,10 @@ import java.util.Date;
  */
 @Data
 @ToString
-public class MyFriendsInfoDTO {
+public class MyFriendsInfoDTO implements Serializable {
+
+    private static final long serialVersionUID = -2937277064200362401L;
+
     /**
      * 主键
      */

@@ -4,37 +4,23 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
- * @author : ga.zhang
- */
+ * @Description: TODO
+ * @Author ga.zhang
+ * @Date 2020/1/13 14:15
+ * @Version V1.0
+ **/
 @Data
 @ToString
-public class UserInfoVO implements Serializable {
+public class FrontUserInfoVO implements Serializable {
 
-    private static final long serialVersionUID = 6834462231023576534L;
+    private static final long serialVersionUID = 7805243804853710565L;
 
-    /**
-     * 主键
-     */
-    private String id;
-    /**
-     * 创建时间
-     */
-    private Date gmtCreate;
-    /**
-     * 最新修改时间
-     */
-    private Date gmtModified;
     /**
      * 用户名
      */
     private String username;
-    /**
-     * 密码
-     */
-    private String password;
     /**
      * 用户头像
      */
@@ -55,8 +41,4 @@ public class UserInfoVO implements Serializable {
      * client_id,设备id
      */
     private String cid;
-    /**
-     * 逻辑删除
-     */
-    private Long isDeleted;
 }

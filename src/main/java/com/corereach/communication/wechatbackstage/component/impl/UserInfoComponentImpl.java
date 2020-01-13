@@ -42,7 +42,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     }
 
     @Override
-    public Boolean isUsernameExist(String username) {
+    public Boolean usernameIsExist(String username) {
         UserInfo info = new UserInfo();
         info.setUsername(username);
         UserInfo userInfo = (UserInfo) userInfoMapper.selectOne(info);

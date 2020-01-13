@@ -4,7 +4,7 @@ import com.corereach.communication.wechatbackstage.api.UserInfoService;
 import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
 import com.corereach.communication.wechatbackstage.comm.ChatCode;
 import com.corereach.communication.wechatbackstage.comm.Constants;
-import com.corereach.communication.wechatbackstage.utils.MD5Util;
+import com.corereach.communication.wechatbackstage.utils.Md5Util;
 import com.icode.rich.comm.AiResult;
 import com.icode.rich.exception.AiException;
 import org.springframework.util.ObjectUtils;
@@ -32,27 +32,27 @@ public class UserController {
     @PostMapping("/registerOrLogin")
     private AiResult<String> registerOrLogin(@RequestBody UserInfoVO user) {
 
-        /**
+        /*
          * 判断用户名密码不能为空
          */
         if (ObjectUtils.isEmpty(user) || StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
             throw new AiException(Constants.isGlobal, ChatCode.USERNAME_PASSWORD_CAN_NOT_BE_NULL);
         }
 
-        /**
+        /*
          * 判断用户是否存在，存在则登录，不存在则注册
          */
-        UserInfoVO userInfoVO = null;
+        UserInfoVO userInfoVO;
         if (userInfoService.isUsernameExist(user.getUsername())) {
-            /**
+            /*
              * 登录流程
              */
-            userInfoVO = userInfoService.checkPassword(user.getUsername(), MD5Util.getMD5Str(user.getPassword()));
+            userInfoVO = userInfoService.checkPassword(user.getUsername(), Md5Util.getMd5Str(user.getPassword()));
             if (!ObjectUtils.isEmpty(userInfoVO) || !StringUtils.isEmpty(userInfoVO.getUsername())) {
                 throw new AiException(Constants.isGlobal, ChatCode.USERNAME_OR_PASSWORD_ERROR);
             }
         } else {
-            /**
+            /*
              * 注册流程
              */
             userInfoVO = userInfoService.insertUser(user);

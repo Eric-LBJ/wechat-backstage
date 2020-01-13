@@ -14,11 +14,9 @@ public class ConvertUtil {
     /**
      * 基本对象转换
      *
-     * @param targetClazz
-     * @param initObject
-     * @return
-     * @throws IllegalAccessException
-     * @throws InstantiationException
+     * @param targetClazz 目标对象类型
+     * @param initObject 初始对象
+     * @return T
      */
     public static <T> T convertDomain(Class<T> targetClazz, Object initObject) {
         Object targetObject = null;
@@ -27,9 +25,7 @@ public class ConvertUtil {
             if (!ObjectUtils.isEmpty(initObject)) {
                 BeanUtils.copyProperties(initObject, targetObject);
             }
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         if (targetClazz.isInstance(targetObject)) {

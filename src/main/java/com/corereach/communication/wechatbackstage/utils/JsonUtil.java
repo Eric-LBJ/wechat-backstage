@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * @author ga.zhang
  * @Description: 自定义响应结构, 转换类
  */
 public class JsonUtil {
@@ -18,13 +19,12 @@ public class JsonUtil {
      * 将对象转换成json字符串。
      * <p>Title: pojoToJson</p>
      * <p>Description: </p>
-     * @param data
-     * @return
+     * @param data 数据
+     * @return String
      */
     public static String objectToJson(Object data) {
     	try {
-			String string = MAPPER.writeValueAsString(data);
-			return string;
+            return MAPPER.writeValueAsString(data);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -36,12 +36,11 @@ public class JsonUtil {
      * 
      * @param jsonData json数据
      * @param clazz 对象中的object类型
-     * @return
+     * @return T
      */
     public static <T> T jsonToPojo(String jsonData, Class<T> clazz) {
         try {
-            T t = MAPPER.readValue(jsonData, clazz);
-            return t;
+            return MAPPER.readValue(jsonData, clazz);
         } catch (Exception e) {
         	e.printStackTrace();
         }
@@ -52,15 +51,14 @@ public class JsonUtil {
      * 将json数据转换成pojo对象list
      * <p>Title: jsonToList</p>
      * <p>Description: </p>
-     * @param jsonData
-     * @param clazz
-     * @return
+     * @param jsonData json数据
+     * @param clazz 类
+     * @return List<T>
      */
     public static <T>List<T> jsonToList(String jsonData, Class<T> clazz) {
     	JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, clazz);
     	try {
-    		List<T> list = MAPPER.readValue(jsonData, javaType);
-    		return list;
+            return MAPPER.readValue(jsonData, javaType);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

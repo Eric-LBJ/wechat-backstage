@@ -33,18 +33,17 @@ public class ChatServer {
 
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
-    private ServerBootstrap server;
     private ChannelFuture future;
 
     @PostConstruct
     public void start() throws InterruptedException {
         bossGroup = new NioEventLoopGroup();
         workerGroup = new NioEventLoopGroup();
-        server = new ServerBootstrap();
+        ServerBootstrap server = new ServerBootstrap();
         server.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(webSocketServerInitializer);
-        /**这里不需要加同步，因为这里并不是处于main方法中*/
+        /*这里不需要加同步，因为这里并不是处于main方法中*/
         this.future = server.bind(serverPort).sync();
         log.info("ChatServer启动完毕。。。");
     }

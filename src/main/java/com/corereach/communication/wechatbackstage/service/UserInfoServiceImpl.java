@@ -5,8 +5,6 @@ import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
 import com.corereach.communication.wechatbackstage.component.UserInfoComponent;
 import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
 import com.corereach.communication.wechatbackstage.utils.ConvertUtil;
-import com.corereach.communication.wechatbackstage.utils.MD5Util;
-import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

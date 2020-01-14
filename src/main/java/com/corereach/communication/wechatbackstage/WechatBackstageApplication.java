@@ -9,7 +9,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @author ga.zhang
  */
 @SpringBootApplication
-@ComponentScan({"org.n3r.idworker"})
+@ComponentScan({"org.n3r.idworker","com.corereach.communication.wechatbackstage"})
 @MapperScan(basePackages="com.corereach.communication.wechatbackstage.dao")
 public class WechatBackstageApplication {
 

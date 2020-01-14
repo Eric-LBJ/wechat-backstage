@@ -45,7 +45,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     public Boolean usernameIsExist(String username) {
         UserInfo info = new UserInfo();
         info.setUsername(username);
-        UserInfo userInfo = (UserInfo) userInfoMapper.selectOne(info);
+        UserInfo userInfo = userInfoMapper.selectOne(info);
         return !ObjectUtils.isEmpty(userInfo) && !StringUtils.isEmpty(userInfo.getUsername());
     }
 
@@ -54,7 +54,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
         Example userExample = new Example(UserInfo.class);
         Example.Criteria criteria = userExample.createCriteria();
         criteria.andEqualTo("username", username);
-        criteria.andEqualTo("password", password);
+        criteria.andEqualTo("password", Md5Util.getMd5Str(password));
         return ConvertUtil.convertDomain(UserInfoDTO.class,
                 Optional.ofNullable(userInfoMapper.selectOneByExample(userExample)).orElse(new UserInfo()));
     }
@@ -68,6 +68,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
         userInfoDTO.setPassword(Md5Util.getMd5Str(userInfoDTO.getPassword()));
         userInfoDTO.setQrcode("");
         userInfoDTO.setId(id);
+        userInfoDTO.setIsDeleted(0L);
         if (userInfoMapper.insert(ConvertUtil.convertDomain(UserInfo.class, userInfoDTO)) <= 0){
             throw new AiException(Constants.isGlobal, ChatCode.USER_REGISTER_FAILURE);
         }

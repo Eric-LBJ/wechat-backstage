@@ -1,8 +1,8 @@
 package com.corereach.communication.wechatbackstage.api;
 
 import com.corereach.communication.wechatbackstage.WechatBackstageApplicationTests;
-import com.corereach.communication.wechatbackstage.api.domain.FrontUserInfoVO;
-import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
+import com.corereach.communication.wechatbackstage.api.domain.vo.FrontUserInfoVO;
+import com.corereach.communication.wechatbackstage.api.domain.vo.UserInfoVO;
 import com.corereach.communication.wechatbackstage.utils.Md5Util;
 import org.junit.Test;
 

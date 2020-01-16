@@ -41,4 +41,5 @@ public class UserInfoComponentTest extends WechatBackstageApplicationTests {
         UserInfoDTO userInfoDTO1 = userInfoComponent.insertUser(userInfoDTO);
         System.out.println(userInfoDTO1);
     }
+
 }

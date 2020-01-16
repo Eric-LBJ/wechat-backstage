@@ -1,7 +1,7 @@
 package com.corereach.communication.wechatbackstage.api;
 
-import com.corereach.communication.wechatbackstage.api.domain.FrontUserInfoVO;
-import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
+import com.corereach.communication.wechatbackstage.api.domain.vo.FrontUserInfoVO;
+import com.corereach.communication.wechatbackstage.api.domain.vo.UserInfoVO;
 
 /**
  * @Description: TODO
@@ -14,10 +14,10 @@ public interface UserInfoService {
     /**
      * 根据用户名获取用户信息
      *
-     * @param username 用户名
+     * @param userId 用户编号
      * @return UserInfoVO
      */
-    UserInfoVO getUserInfoByUserName(String username);
+    UserInfoVO getUserInfoByUserId(String userId);
 
     /**
      * 判断用户名是否存在
@@ -43,4 +43,12 @@ public interface UserInfoService {
      * @return UserInfoVO
      */
     FrontUserInfoVO insertUser(UserInfoVO user);
+
+    /**
+     * 更新用户信息
+     *
+     * @param user 用户信息
+     * @return Boolean
+     */
+    UserInfoVO updateUserInfo(UserInfoVO user);
 }

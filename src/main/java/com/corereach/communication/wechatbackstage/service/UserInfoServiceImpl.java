@@ -1,8 +1,8 @@
 package com.corereach.communication.wechatbackstage.service;
 
 import com.corereach.communication.wechatbackstage.api.UserInfoService;
-import com.corereach.communication.wechatbackstage.api.domain.FrontUserInfoVO;
-import com.corereach.communication.wechatbackstage.api.domain.UserInfoVO;
+import com.corereach.communication.wechatbackstage.api.domain.vo.FrontUserInfoVO;
+import com.corereach.communication.wechatbackstage.api.domain.vo.UserInfoVO;
 import com.corereach.communication.wechatbackstage.component.UserInfoComponent;
 import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
 import com.corereach.communication.wechatbackstage.utils.ConvertUtil;
@@ -23,8 +23,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoComponent userInfoComponent;
 
     @Override
-    public UserInfoVO getUserInfoByUserName(String username) {
-        return ConvertUtil.convertDomain(UserInfoVO.class, userInfoComponent.getUserInfoByUserName(username));
+    public UserInfoVO getUserInfoByUserId(String userId) {
+        return ConvertUtil.convertDomain(UserInfoVO.class, userInfoComponent.getUserInfoByUserId(userId));
     }
 
     @Override
@@ -41,5 +41,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     public FrontUserInfoVO insertUser(UserInfoVO user) {
         return ConvertUtil.convertDomain(FrontUserInfoVO.class,
                 userInfoComponent.insertUser(ConvertUtil.convertDomain(UserInfoDTO.class, user)));
+    }
+
+    @Override
+    public UserInfoVO updateUserInfo(UserInfoVO user) {
+        return ConvertUtil.convertDomain(UserInfoVO.class,
+                userInfoComponent.updateUserInfo(ConvertUtil.convertDomain(UserInfoDTO.class,user)));
     }
 }

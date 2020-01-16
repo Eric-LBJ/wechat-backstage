@@ -11,6 +11,8 @@ import com.corereach.communication.wechatbackstage.utils.Md5Util;
 import com.icode.rich.exception.AiException;
 import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
@@ -34,14 +36,14 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     private Sid sid;
 
     @Override
-    public UserInfoDTO getUserInfoByUserName(String username) {
-        UserInfo info = new UserInfo();
-        info.setUsername(username);
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public UserInfoDTO getUserInfoByUserId(String userId) {
         return ConvertUtil.convertDomain(UserInfoDTO.class,
-                Optional.ofNullable(userInfoMapper.selectOne(info)).orElse(new UserInfo()));
+                Optional.ofNullable(userInfoMapper.selectByPrimaryKey(userId)).orElse(new UserInfo()));
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Boolean usernameIsExist(String username) {
         UserInfo info = new UserInfo();
         info.setUsername(username);
@@ -50,6 +52,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserInfoDTO checkPassword(String username, String password) {
         Example userExample = new Example(UserInfo.class);
         Example.Criteria criteria = userExample.createCriteria();
@@ -60,6 +63,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserInfoDTO insertUser(UserInfoDTO userInfoDTO) {
         String id = sid.nextShort();
         userInfoDTO.setNickName(userInfoDTO.getUsername());
@@ -69,9 +73,23 @@ public class UserInfoComponentImpl implements UserInfoComponent {
         userInfoDTO.setQrcode("");
         userInfoDTO.setId(id);
         userInfoDTO.setIsDeleted(0L);
-        if (userInfoMapper.insert(ConvertUtil.convertDomain(UserInfo.class, userInfoDTO)) <= 0){
+        if (userInfoMapper.insert(ConvertUtil.convertDomain(UserInfo.class, userInfoDTO)) <= 0) {
             throw new AiException(Constants.isGlobal, ChatCode.USER_REGISTER_FAILURE);
         }
         return userInfoDTO;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public UserInfoDTO updateUserInfo(UserInfoDTO userInfoDTO) {
+        if (!userInfoMapper.existsWithPrimaryKey(userInfoDTO.getId())) {
+            throw new AiException(Constants.isGlobal, ChatCode.USER_NOT_EXIST);
+        }
+        UserInfo result = new UserInfo();
+        if (userInfoMapper.updateByPrimaryKeySelective(ConvertUtil.convertDomain(UserInfo.class, userInfoDTO)) > 0) {
+            result = userInfoMapper.selectByPrimaryKey(userInfoDTO.getId());
+        }
+        return ConvertUtil.convertDomain(UserInfoDTO.class, result);
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.corereach.communication.wechatbackstage.api.domain;
+package com.corereach.communication.wechatbackstage.api.domain.vo;
 
 import lombok.Data;
 import lombok.ToString;

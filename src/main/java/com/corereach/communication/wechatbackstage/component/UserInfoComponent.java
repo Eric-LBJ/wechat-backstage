@@ -11,12 +11,12 @@ import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
 public interface UserInfoComponent {
 
     /**
-     * 根据用户名获取用户信息
+     * 根据用户编号获取用户信息
      *
-     * @param username 用户名
+     * @param userId 用户编号
      * @return UserInfoDTO
      */
-    UserInfoDTO getUserInfoByUserName(String username);
+    UserInfoDTO getUserInfoByUserId(String userId);
 
     /**
      * 判断用户是否存在
@@ -42,4 +42,13 @@ public interface UserInfoComponent {
      * @return UserInfoDTO
      */
     UserInfoDTO insertUser(UserInfoDTO userInfoDTO);
+
+    /**
+     * 更新用户信息
+     *
+     * @param userInfoDTO 用户信息
+     * @return Boolean
+     */
+    UserInfoDTO updateUserInfo(UserInfoDTO userInfoDTO);
+
 }

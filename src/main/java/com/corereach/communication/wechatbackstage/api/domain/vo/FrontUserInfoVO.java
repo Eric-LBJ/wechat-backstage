@@ -1,4 +1,4 @@
-package com.corereach.communication.wechatbackstage.api.domain;
+package com.corereach.communication.wechatbackstage.api.domain.vo;
 
 import lombok.Data;
 import lombok.ToString;
@@ -17,6 +17,10 @@ public class FrontUserInfoVO implements Serializable {
 
     private static final long serialVersionUID = 7805243804853710565L;
 
+    /**
+     * 用户编号
+     */
+    private String id;
     /**
      * 用户名
      */

@@ -1,7 +1,9 @@
 package com.corereach.communication.wechatbackstage.api;
 
+import com.corereach.communication.wechatbackstage.api.domain.bo.UserInfoBO;
 import com.corereach.communication.wechatbackstage.api.domain.vo.FrontUserInfoVO;
 import com.corereach.communication.wechatbackstage.api.domain.vo.UserInfoVO;
+import com.icode.rich.comm.AiResult;
 
 /**
  * @Description: TODO
@@ -28,7 +30,15 @@ public interface UserInfoService {
     Boolean usernameIsExist(String username);
 
     /**
-     * 用户登录时，校验用户名和密码
+     * 登录或注册
+     *
+     * @param user 用户信息
+     * @return AiResult<FrontUserInfoVO>
+     */
+    AiResult<FrontUserInfoVO> registerOrLogin(UserInfoVO user);
+
+    /**
+     * 校验用户名和密码
      *
      * @param username 用户名
      * @param password 密码
@@ -37,7 +47,7 @@ public interface UserInfoService {
     FrontUserInfoVO checkPassword(String username, String password);
 
     /**
-     * 用户注册
+     * 新增用户信息
      *
      * @param user 用户信息
      * @return UserInfoVO
@@ -50,5 +60,5 @@ public interface UserInfoService {
      * @param user 用户信息
      * @return Boolean
      */
-    UserInfoVO updateUserInfo(UserInfoVO user);
+    AiResult<UserInfoVO> updateUserInfo(UserInfoBO user);
 }

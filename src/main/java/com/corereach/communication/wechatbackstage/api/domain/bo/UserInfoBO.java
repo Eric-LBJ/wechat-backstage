@@ -18,11 +18,16 @@ public class UserInfoBO implements Serializable {
     /**
      * 用户编号
      */
-    private String userId;
+    private String id;
 
     /**
      * 用户头像
      */
     private String faceData;
+
+    /**
+     * 用户昵称
+     */
+    public String nickName;
 
 }

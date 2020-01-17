@@ -27,6 +27,14 @@ public interface UserInfoComponent {
     Boolean usernameIsExist(String username);
 
     /**
+     * 用户登录或注册
+     *
+     * @param userInfoDTO 用户信息
+     * @return UserInfoDTO
+     */
+    UserInfoDTO registerOrLogin(UserInfoDTO userInfoDTO);
+
+    /**
      * 用户登录时，校验用户名和密码
      *
      * @param username 用户名

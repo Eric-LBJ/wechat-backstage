@@ -1,11 +1,19 @@
 package com.corereach.communication.wechatbackstage.service;
 
 import com.corereach.communication.wechatbackstage.api.UserInfoService;
+import com.corereach.communication.wechatbackstage.api.domain.bo.UserInfoBO;
 import com.corereach.communication.wechatbackstage.api.domain.vo.FrontUserInfoVO;
 import com.corereach.communication.wechatbackstage.api.domain.vo.UserInfoVO;
+import com.corereach.communication.wechatbackstage.comm.Constants;
 import com.corereach.communication.wechatbackstage.component.UserInfoComponent;
 import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
 import com.corereach.communication.wechatbackstage.utils.ConvertUtil;
+import com.icode.rich.comm.AiCodes;
+import com.icode.rich.comm.AiResult;
+import com.icode.rich.comm.ServiceSupport;
+import com.icode.rich.exception.AiException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,7 +25,9 @@ import javax.annotation.Resource;
  * @Version V1.0
  **/
 @Service("userService")
-public class UserInfoServiceImpl implements UserInfoService {
+public class UserInfoServiceImpl extends ServiceSupport implements UserInfoService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoServiceImpl.class);
 
     @Resource
     private UserInfoComponent userInfoComponent;
@@ -33,6 +43,31 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public AiResult<FrontUserInfoVO> registerOrLogin(UserInfoVO user) {
+        /**
+         * 数据校验
+         */
+        super.notNull("用户信息", user)
+                .notNull("账号", user.getUsername())
+                .notBlank("账号", user.getUsername())
+                .checkLength("账号", user.getUsername(), 1, 64)
+                .notNull("密码", user.getPassword())
+                .notBlank("密码", user.getPassword())
+                .checkLength("密码", user.getPassword(), 1, 64);
+        try {
+            UserInfoVO userInfoVO =
+                    ConvertUtil.convertDomain(UserInfoVO.class, userInfoComponent.registerOrLogin(ConvertUtil.convertDomain(UserInfoDTO.class, user)));
+            return new AiResult<>(Constants.isGlobal, ConvertUtil.convertDomain(FrontUserInfoVO.class, userInfoVO));
+        } catch (AiException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new AiResult<>(Constants.isGlobal, e.getCode(), e.getMessage(), e.getLocalizedMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new AiResult<>(Constants.isGlobal, AiCodes.SYSTEM_ERROR);
+        }
+    }
+
+    @Override
     public FrontUserInfoVO checkPassword(String username, String password) {
         return ConvertUtil.convertDomain(FrontUserInfoVO.class, userInfoComponent.checkPassword(username, password));
     }
@@ -44,8 +79,24 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public UserInfoVO updateUserInfo(UserInfoVO user) {
-        return ConvertUtil.convertDomain(UserInfoVO.class,
-                userInfoComponent.updateUserInfo(ConvertUtil.convertDomain(UserInfoDTO.class,user)));
+    public AiResult<UserInfoVO> updateUserInfo(UserInfoBO user) {
+        /**
+         * 数据校验
+         */
+        super.notNull("用户信息", user)
+                .notNull("用户编号", user.getId())
+                .notBlank("用户编号", user.getId())
+                .checkLength("用户编号", user.getId(), 1, 64);
+        try {
+            UserInfoVO result = ConvertUtil.convertDomain(UserInfoVO.class,
+                    userInfoComponent.updateUserInfo(ConvertUtil.convertDomain(UserInfoDTO.class, user)));
+            return new AiResult<>(Constants.isGlobal, result);
+        } catch (AiException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new AiResult<>(Constants.isGlobal, e.getCode(), e.getMessage(), e.getLocalizedMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new AiResult<>(Constants.isGlobal, AiCodes.SYSTEM_ERROR);
+        }
     }
 }

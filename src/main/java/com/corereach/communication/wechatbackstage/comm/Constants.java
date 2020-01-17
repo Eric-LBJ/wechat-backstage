@@ -31,11 +31,15 @@ public class Constants {
     /**
      * 图片文件放置的本地文件夹
      */
-    public static final String IMG_FILE_BASE_PATH = "F:\\";
+    public static final String IMG_FILE_BASE_PATH = "F:\\userImage\\";
     /**
-     * 图片文件尾缀
+     * 头像图片文件尾缀
      */
-    public static final String IMG_FILE_SUFFIX = "userFaceImageBase64.png";
+    public static final String FACE_IMG_FILE_SUFFIX = "userFaceImageBase64.png";
+    /**
+     * 二维码图片文件尾缀
+     */
+    public static final String QR_CODE_IMG_FILE_SUFFIX = "qrCode.png";
     /**
      * 分割符
      */
@@ -44,5 +48,13 @@ public class Constants {
      * 默认字符串的值
      */
     public static final String DEFAULT_STRING_VALUE = "";
+    /**
+     * 二维码信息前缀
+     */
+    public static final String QR_CODE_PREFIX = "username:[";
+    /**
+     * 二维码信息尾缀
+     */
+    public static final String QR_CODE_SUFFIX = "]";
 
 }

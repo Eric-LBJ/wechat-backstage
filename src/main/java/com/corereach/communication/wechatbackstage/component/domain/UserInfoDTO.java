@@ -59,4 +59,8 @@ public class UserInfoDTO implements Serializable {
      * 逻辑删除
      */
     private Long isDeleted;
+    /**
+     * 用户头像base64编码数据
+     */
+    private String faceData;
 }

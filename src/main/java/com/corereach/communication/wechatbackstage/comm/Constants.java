@@ -56,5 +56,9 @@ public class Constants {
      * 二维码信息尾缀
      */
     public static final String QR_CODE_SUFFIX = "]";
+    /**
+     * 是否删除：否
+     */
+    public static final Long IS_DELETED_FALSE = 0L;
 
 }

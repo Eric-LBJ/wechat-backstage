@@ -4,7 +4,9 @@ import com.corereach.communication.wechatbackstage.comm.ChatCode;
 import com.corereach.communication.wechatbackstage.comm.Constants;
 import com.corereach.communication.wechatbackstage.component.UserInfoComponent;
 import com.corereach.communication.wechatbackstage.component.domain.UserInfoDTO;
+import com.corereach.communication.wechatbackstage.dao.MyFriendsInfoMapper;
 import com.corereach.communication.wechatbackstage.dao.UserInfoMapper;
+import com.corereach.communication.wechatbackstage.dao.domain.MyFriendsInfo;
 import com.corereach.communication.wechatbackstage.dao.domain.UserInfo;
 import com.corereach.communication.wechatbackstage.utils.*;
 import com.icode.rich.exception.AiException;
@@ -34,6 +36,9 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     private UserInfoMapper userInfoMapper;
 
     @Resource
+    private MyFriendsInfoMapper myFriendsInfoMapper;
+
+    @Resource
     private Sid sid;
 
     @Resource
@@ -54,6 +59,7 @@ public class UserInfoComponentImpl implements UserInfoComponent {
     public Boolean usernameIsExist(String username) {
         UserInfo info = new UserInfo();
         info.setUsername(username);
+        info.setIsDeleted(Constants.IS_DELETED_FALSE);
         UserInfo userInfo = userInfoMapper.selectOne(info);
         return !ObjectUtils.isEmpty(userInfo) && !StringUtils.isEmpty(userInfo.getUsername());
     }
@@ -80,8 +86,11 @@ public class UserInfoComponentImpl implements UserInfoComponent {
         Example.Criteria criteria = userExample.createCriteria();
         criteria.andEqualTo("username", username);
         criteria.andEqualTo("password", Md5Util.getMd5Str(password));
-        return ConvertUtil.convertDomain(UserInfoDTO.class,
-                Optional.ofNullable(userInfoMapper.selectOneByExample(userExample)).orElse(new UserInfo()));
+        UserInfo userInfo = Optional.ofNullable(userInfoMapper.selectOneByExample(userExample)).orElse(new UserInfo());
+        if (ObjectUtils.isEmpty(userInfo) || StringUtils.isEmpty(userInfo.getId())) {
+            throw new AiException(Constants.isGlobal, ChatCode.USERNAME_OR_PASSWORD_ERROR);
+        }
+        return ConvertUtil.convertDomain(UserInfoDTO.class, userInfo);
     }
 
     @Override
@@ -128,6 +137,34 @@ public class UserInfoComponentImpl implements UserInfoComponent {
             throw new AiException(Constants.isGlobal, ChatCode.USER_INFO_UPDATE_FAILURE);
         }
         return ConvertUtil.convertDomain(UserInfoDTO.class, result);
+    }
+
+    @Override
+    public UserInfoDTO searchUserInfoByUserName(String myUserId, String friendUsername) {
+        /**
+         * 1.需要判断用户是否存在
+         * 2.需要判断用户是否是自己
+         * 3.需要判断用户与自己是否已经是好友
+         */
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username", friendUsername);
+        UserInfo userInfo = userInfoMapper.selectOneByExample(example);
+        if (ObjectUtils.isEmpty(userInfo) || StringUtils.isEmpty(userInfo.getId())) {
+            throw new AiException(Constants.isGlobal, ChatCode.USER_INFO_NOT_EXIST);
+        }
+        if (myUserId.equals(userInfo.getId())){
+            throw new AiException(Constants.isGlobal, ChatCode.USER_IS_YOURSELF);
+        }
+        Example mfe = new Example(MyFriendsInfo.class);
+        Example.Criteria ec = mfe.createCriteria();
+        ec.andEqualTo("myUserId",myUserId);
+        ec.andEqualTo("myFriendUserId",userInfo.getId());
+        MyFriendsInfo myFriendsInfo = myFriendsInfoMapper.selectOneByExample(mfe);
+        if (!ObjectUtils.isEmpty(myFriendsInfo) && !StringUtils.isEmpty(myFriendsInfo.getId())) {
+            throw new AiException(Constants.isGlobal, ChatCode.USER_IS_ALREADY_YOUR_FRIEND);
+        }
+        return ConvertUtil.convertDomain(UserInfoDTO.class,userInfo);
     }
 
     private void setFaceImage(UserInfoDTO user) {

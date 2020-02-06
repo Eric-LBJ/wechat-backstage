@@ -99,4 +99,29 @@ public class UserInfoServiceImpl extends ServiceSupport implements UserInfoServi
             return new AiResult<>(Constants.isGlobal, AiCodes.SYSTEM_ERROR);
         }
     }
+
+    @Override
+    public AiResult<FrontUserInfoVO> searchUserInfoByUserName(String myUserId, String friendUsername) {
+        /**
+         * 数据校验
+         */
+        super.notNull("用户编号", myUserId)
+                .notBlank("用户编号", myUserId)
+                .checkLength("用户编号", myUserId, 1, 64)
+                .notNull("账号", friendUsername)
+                .notBlank("账号", friendUsername)
+                .checkLength("账号", friendUsername, 1, 64);
+        try {
+            FrontUserInfoVO result = ConvertUtil.convertDomain(FrontUserInfoVO.class,
+                    userInfoComponent.searchUserInfoByUserName(myUserId, friendUsername));
+            return new AiResult<>(Constants.isGlobal, result);
+        } catch (AiException e) {
+            LOGGER.error(e.getMessage(), e);
+//            throw new AiException(Constants.isGlobal, e.getCode(), e.getMessage(), e.getLocalizedMessage());
+            return new AiResult<>(Constants.isGlobal, e.getCode(), e.getMessage(), e.getLocalizedMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new AiResult<>(Constants.isGlobal, AiCodes.SYSTEM_ERROR);
+        }
+    }
 }

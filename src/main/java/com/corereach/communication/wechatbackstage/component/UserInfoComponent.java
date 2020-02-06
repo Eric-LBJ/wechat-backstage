@@ -59,4 +59,12 @@ public interface UserInfoComponent {
      */
     UserInfoDTO updateUserInfo(UserInfoDTO userInfoDTO);
 
+    /**
+     * 根据用户账号获取用户信息
+     *
+     * @param myUserId       我的用户编号
+     * @param friendUsername 用户账号
+     * @return UserInfoDTO
+     */
+    UserInfoDTO searchUserInfoByUserName(String myUserId, String friendUsername);
 }

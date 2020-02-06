@@ -61,4 +61,13 @@ public interface UserInfoService {
      * @return Boolean
      */
     AiResult<UserInfoVO> updateUserInfo(UserInfoBO user);
+
+    /**
+     * 搜索用户信息
+     *
+     * @param myUserId       我的用户编号
+     * @param friendUsername 好友用户名
+     * @return AiResult<UserInfoVO>
+     */
+    AiResult<FrontUserInfoVO> searchUserInfoByUserName(String myUserId, String friendUsername);
 }
